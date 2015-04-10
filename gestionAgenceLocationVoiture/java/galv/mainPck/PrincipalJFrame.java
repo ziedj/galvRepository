@@ -7,14 +7,20 @@ import galv.voiture.VoitureMenu;
 
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JTabbedPane;
 
 public class PrincipalJFrame extends JFrame {
 
@@ -35,6 +41,10 @@ public class PrincipalJFrame extends JFrame {
 	private LocationMenu locationMenu;
 	
 	private static final JDesktopPane desktopPane = new JDesktopPane();
+	
+	private static final String BACKGROUND_IMAGE_NAME = "images/rent_a_car.jpg";
+	
+	public static int onglet = JTabbedPane.LEFT;
 
 	/**
 	 * @param args
@@ -66,8 +76,16 @@ public class PrincipalJFrame extends JFrame {
 		this.setLocationRelativeTo(null);
 		
 		desktopPane.setBackground(DEFAULT_BG_COLOR);
-		//ImageIcon imgIcon = new ImageIcon(BACKGROUND_IMAGE_NAME);
-		final JLabel backgroundLabel = new JLabel("TEST");
+		URL resource = this.getClass().getClassLoader().getResource(BACKGROUND_IMAGE_NAME);
+		Image img = null;
+		try {
+			img = ImageIO.read(resource);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ImageIcon imgIcon = new ImageIcon(img);
+		final JLabel backgroundLabel = new JLabel(imgIcon,JLabel.CENTER);
 		backgroundLabel.setSize(width, height);
 		desktopPane.add(backgroundLabel);
 		desktopPane.addComponentListener(new ComponentAdapter() {
