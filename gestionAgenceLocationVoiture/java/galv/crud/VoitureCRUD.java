@@ -141,4 +141,21 @@ public final class VoitureCRUD {
 
 	}
 
+	public static List<String> findListImmatriculation() {
+		SQLConnection connection = new SQLConnection();
+		String query = "SELECT * FROM appgestionagencelocationvoiture.voiture";
+		connection.connect();
+		ResultSet result = connection.executeSelect(query);
+		List<String> list = new ArrayList<String>();
+		try {
+			while (result.next()) {
+				list.add(result.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
 }

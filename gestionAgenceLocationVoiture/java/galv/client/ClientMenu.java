@@ -1,11 +1,20 @@
 package galv.client;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import galv.mainPck.PrincipalJFrame;
+import galv.voiture.ListeVoituresFrame;
+
+import javax.swing.JDesktopPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class ClientMenu extends JMenu {
 
-	private JMenuItem listClientsItem;
+	private JMenuItem listClients;
+	private ListeClientsFrame listeClientsFrame;
+	private JDesktopPane desktopPane;
 
 	/**
 	 * 
@@ -19,16 +28,41 @@ public class ClientMenu extends JMenu {
 
 	public ClientMenu(String s) {
 		super(s);
-		listClientsItem = new JMenuItem("List Clients");
-		this.add(listClientsItem);
+		this.desktopPane = PrincipalJFrame.getDesktopPane();
+		listClients = new JMenuItem("List Clients");
+		this.add(listClients);
+		init();
 	}
 
-	public JMenuItem getListClientsItem() {
-		return listClientsItem;
+	public void init() {
+		listClients.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				listeClientsFrame = new ListeClientsFrame();
+				desktopPane.add(listeClientsFrame);
+				listeClientsFrame.setLocation(
+						(PrincipalJFrame.width - listeClientsFrame.getWidth()) / 2,
+						(PrincipalJFrame.height - listeClientsFrame.getHeight()) / 2);
+				listeClientsFrame.setVisible(true);
+				listeClientsFrame.toFront();
+			}
+		});
 	}
 
-	public void setListClientsItem(JMenuItem listClientsItem) {
-		this.listClientsItem = listClientsItem;
+	public JMenuItem getListClients() {
+		return listClients;
+	}
+
+	public void setListClients(JMenuItem listClients) {
+		this.listClients = listClients;
+	}
+
+	public ListeClientsFrame getListeClientsFrame() {
+		return listeClientsFrame;
+	}
+
+	public void setListeClientsFrame(ListeClientsFrame listeClientsFrame) {
+		this.listeClientsFrame = listeClientsFrame;
 	}
 
 }

@@ -10,22 +10,15 @@ import java.util.List;
 
 public final class ClientCRUD {
 
-	public static Client createCustomer(Client client) {
-		System.out.println("create Customer with cin = " + client.getCin());
-		/**
-    	 * 
-    	 */
+	public static Client createClient(Client client) {
 		SQLConnection connection = new SQLConnection();
 		StringBuilder query = new StringBuilder(
-				"INSERT INTO appgestionvoiture.customer (cin, firstName, lastName, telephone, email, address) ");
+				"INSERT INTO appgestionagencelocationvoiture.client (cin, firstName, lastName, telephone, email, address) ");
 		query.append("VALUES (");
 		query.append("'").append(client.getCin()).append("'").append(",");
-		query.append("'").append(client.getFirstname()).append("'")
-				.append(",");
-		query.append("'").append(client.getLastname()).append("'")
-				.append(",");
-		query.append("'").append(client.getTelephone()).append("'")
-				.append(",");
+		query.append("'").append(client.getFirstname()).append("'").append(",");
+		query.append("'").append(client.getLastname()).append("'").append(",");
+		query.append("'").append(client.getTelephone()).append("'").append(",");
 		query.append("'").append(client.getEmail()).append("'").append(",");
 		query.append("'").append(client.getAddress()).append("'").append(")");
 		connection.connect();
@@ -41,13 +34,9 @@ public final class ClientCRUD {
 	}
 
 	public static Client findClient(String cin) {
-		System.out.println("find Customer with cin = " + cin);
-		/**
-    	 * 
-    	 */
 		SQLConnection connection = new SQLConnection();
 		StringBuilder query = new StringBuilder(
-				"SELECT * FROM appgestionvoiture.customer where cin like '");
+				"SELECT * FROM appgestionagencelocationvoiture.client where cin like '");
 		query.append(cin);
 		query.append("'");
 		connection.connect();
@@ -71,14 +60,10 @@ public final class ClientCRUD {
 
 	}
 
-	public static void deleteCustomer(Client customer) {
-		System.out.println("delete Customer with cin = " + customer.getCin());
-		/**
-    	 * 
-    	 */
+	public static void deleteClient(Client customer) {
 		SQLConnection connection = new SQLConnection();
 		StringBuilder query = new StringBuilder(
-				"DELETE FROM appgestionvoiture.customer ");
+				"DELETE FROM appgestionagencelocationvoiture.client ");
 		query.append("WHERE cin = '").append(customer.getCin()).append("'");
 		connection.connect();
 		connection.executeInsert(query.toString());
@@ -86,13 +71,9 @@ public final class ClientCRUD {
 	}
 
 	public static Client updateClient(Client client) {
-		System.out.println("update Customer with cin = " + client.getCin());
-		/**
-    	 * 
-    	 */
 		SQLConnection connection = new SQLConnection();
 		StringBuilder query = new StringBuilder(
-				"UPDATE appgestionvoiture.customer ");
+				"UPDATE appgestionagencelocationvoiture.client ");
 		query.append("set firstName = '");
 		query.append(client.getFirstname()).append("'").append(",");
 		query.append(" lastName = '");
@@ -118,7 +99,7 @@ public final class ClientCRUD {
     	 * 
     	 */
 		SQLConnection connection = new SQLConnection();
-		String query = "SELECT * FROM appgestionvoiture.customer";
+		String query = "SELECT * FROM appgestionagencelocationvoiture.client";
 		connection.connect();
 		ResultSet result = connection.executeSelect(query);
 		List<Client> list = new ArrayList<Client>();
@@ -141,12 +122,12 @@ public final class ClientCRUD {
 		return list;
 
 	}
-	
+
 	public static Client findClientById(Long idClient) {
 
 		SQLConnection connection = new SQLConnection();
 		StringBuilder query = new StringBuilder(
-				"SELECT * FROM appgestionvoiture.customer where id = ");
+				"SELECT * FROM appgestionagencelocationvoiture.client where id = ");
 		query.append(idClient);
 		connection.connect();
 		ResultSet result = connection.executeSelect(query.toString());
@@ -169,13 +150,12 @@ public final class ClientCRUD {
 
 	}
 
-
 	public static List<String> findListCIN() {
 		/**
     	 * 
     	 */
 		SQLConnection connection = new SQLConnection();
-		String query = "SELECT * FROM appgestionvoiture.customer";
+		String query = "SELECT * FROM appgestionagencelocationvoiture.client";
 		connection.connect();
 		ResultSet result = connection.executeSelect(query);
 		List<String> list = new ArrayList<String>();
@@ -188,5 +168,5 @@ public final class ClientCRUD {
 		}
 		return list;
 	}
-		
+
 }
