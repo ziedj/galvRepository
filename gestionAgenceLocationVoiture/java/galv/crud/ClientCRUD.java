@@ -89,7 +89,6 @@ public final class ClientCRUD {
 		if (updated) {
 			updatedCustomer = findClient(client.getCin());
 		}
-		System.out.println(updatedCustomer.toString());
 		return client;
 
 	}
@@ -145,7 +144,6 @@ public final class ClientCRUD {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(client.toString());
 		return client;
 
 	}

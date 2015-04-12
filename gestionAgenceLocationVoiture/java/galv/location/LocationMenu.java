@@ -28,7 +28,7 @@ public class LocationMenu extends JMenu {
 	public LocationMenu(String s) {
 		super(s);
 		this.desktopPane = PrincipalJFrame.getDesktopPane();
-		listLocations = new JMenuItem("List Voiture");
+		listLocations = new JMenuItem("List Locations");
 		this.add(listLocations);
 		init();
 	}
