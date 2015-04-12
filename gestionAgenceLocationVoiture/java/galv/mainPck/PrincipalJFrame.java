@@ -5,7 +5,10 @@ import galv.client.ClientMenu;
 import galv.location.LocationMenu;
 import galv.voiture.VoitureMenu;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -14,13 +17,18 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
 
 public class PrincipalJFrame extends JFrame {
 
@@ -28,22 +36,33 @@ public class PrincipalJFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private int defaultWidth;
 	private int defaultHeight;
 
 	public static int width;
 	public static int height;
 
+	private JToolBar appToolBar;
 	private JMenuBar appMenuBar;
 	private ClientMenu clientMenu;
 	private VoitureMenu voitureMenu;
 	private LocationMenu locationMenu;
-	
+
+	private GridBagLayout applayout = new GridBagLayout();
+	GridBagConstraints applayoutConstraints = new GridBagConstraints();
+
+	// toolBar button
+	JButton ajoutVoiture;
+	JButton ajoutClient;
+	JButton ajoutLocation;
+
+	//
+
 	private static final JDesktopPane desktopPane = new JDesktopPane();
-	
+
 	private static final String BACKGROUND_IMAGE_NAME = "images/rent_a_car.jpg";
-	
+
 	public static int onglet = JTabbedPane.LEFT;
 
 	/**
@@ -64,28 +83,20 @@ public class PrincipalJFrame extends JFrame {
 	/**************************************************************/
 
 	public void init() {
-		
+
 		defaultWidth = 640;
 		defaultHeight = 480;
 		width = defaultWidth;
 		height = defaultHeight;
-		
+
 		this.setTitle("Gestion Agence Location Voiture");
 		this.setSize(new Dimension(800, 600));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		
+
 		desktopPane.setBackground(DEFAULT_BG_COLOR);
-		URL resource = this.getClass().getClassLoader().getResource(BACKGROUND_IMAGE_NAME);
-		Image img = null;
-		try {
-			img = ImageIO.read(resource);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ImageIcon imgIcon = new ImageIcon(img);
-		final JLabel backgroundLabel = new JLabel(imgIcon,JLabel.CENTER);
+		ImageIcon imgIcon = getIcon(BACKGROUND_IMAGE_NAME);
+		final JLabel backgroundLabel = new JLabel(imgIcon, JLabel.CENTER);
 		backgroundLabel.setSize(width, height);
 		desktopPane.add(backgroundLabel);
 		desktopPane.addComponentListener(new ComponentAdapter() {
@@ -98,7 +109,7 @@ public class PrincipalJFrame extends JFrame {
 			}
 
 		});
-		getContentPane().add(desktopPane);
+		// getContentPane().add(desktopPane, BorderLayout.CENTER);
 
 		appMenuBar = new JMenuBar();
 		clientMenu = new ClientMenu("Client");
@@ -107,17 +118,55 @@ public class PrincipalJFrame extends JFrame {
 		appMenuBar.add(clientMenu);
 		appMenuBar.add(voitureMenu);
 		appMenuBar.add(locationMenu);
+		// appMenuBar.setBorder(BorderFactory.createEtchedBorder());
 
 		this.setJMenuBar(appMenuBar);
-//		desktopPane.add(voitureMenu.getListVoitures());
-//		getContentPane().add(desktopPane);
-		
 
-		
+		setLayout(applayout);
+
+		initToolBar();
+
+		applayoutConstraints.fill = GridBagConstraints.BOTH;
+		applayoutConstraints.gridx = 0;
+		applayoutConstraints.gridy = 2;
+		applayoutConstraints.weightx = 1.0;
+		applayoutConstraints.weighty = 1.0;
+		getContentPane().add(desktopPane, applayoutConstraints);
 	}
 
-	public void addMenus() {
+	public void initToolBar() {
+		JSeparator north = new JSeparator(JSeparator.HORIZONTAL);
+		applayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+		applayoutConstraints.gridx = 0;
+		applayoutConstraints.gridy = 0;
+		applayoutConstraints.weightx = 1.0;
+		this.getContentPane().add(north, applayoutConstraints);
+		appToolBar = new JToolBar();
+		appToolBar.setOpaque(false);
+		appToolBar.setFloatable(false);
+		// appToolBar.setBorder(BorderFactory.createEtchedBorder());
 
+		ajoutClient = new JButton(getIcon("images/client.jpg"));
+		ajoutClient.setBackground(Color.white);
+		ajoutVoiture = new JButton(getIcon("images/voiture.jpg"));
+		ajoutVoiture.setBackground(Color.white);
+		ajoutVoiture.setToolTipText("Ajouter une voiture");
+		ajoutLocation = new JButton(getIcon("images/location.png"));
+		ajoutLocation.setBackground(Color.white);
+		ajoutLocation.setToolTipText("Ajouter une Location");
+
+		appToolBar.add(ajoutVoiture);
+		appToolBar.addSeparator();
+		appToolBar.add(ajoutClient);
+		appToolBar.addSeparator();
+		appToolBar.add(ajoutLocation);
+		ajoutClient.setToolTipText("Ajouter un Client");
+
+		applayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+		applayoutConstraints.gridx = 0;
+		applayoutConstraints.gridy = 1;
+		applayoutConstraints.weightx = 1.0;
+		this.getContentPane().add(appToolBar, applayoutConstraints);
 	}
 
 	/**************************************************************/
@@ -156,16 +205,35 @@ public class PrincipalJFrame extends JFrame {
 		this.locationMenu = locationMenu;
 	}
 
-	
 	public void addAndShowFrame(JInternalFrame frame) {
 		desktopPane.add(frame);
 		frame.setLocation((width - frame.getWidth()) / 2,
 				(height - frame.getHeight()) / 2);
-		//frame.setVisible(true);
+		// frame.setVisible(true);
 	}
 
 	public static JDesktopPane getDesktopPane() {
 		return desktopPane;
 	}
 
+	public JToolBar getAppToolBar() {
+		return appToolBar;
+	}
+
+	public void setAppToolBar(JToolBar appToolBar) {
+		this.appToolBar = appToolBar;
+	}
+
+	public ImageIcon getIcon(String image) {
+		URL resource = this.getClass().getClassLoader().getResource(image);
+		Image img = null;
+		try {
+			img = ImageIO.read(resource);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ImageIcon imgIcon = new ImageIcon(img);
+		return imgIcon;
+	}
 }
