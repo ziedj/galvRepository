@@ -1,8 +1,15 @@
 package galv.mainPck;
 
 import static galv.utilities.YapsUIConstants.DEFAULT_BG_COLOR;
+import static galv.utilities.YapsViewType.CREATE;
+import galv.client.ClientFrame;
 import galv.client.ClientMenu;
+import galv.entities.Client;
+import galv.entities.Location;
+import galv.entities.Voiture;
+import galv.location.LocationFrame;
 import galv.location.LocationMenu;
+import galv.voiture.VoitureFrame;
 import galv.voiture.VoitureMenu;
 
 import java.awt.Color;
@@ -11,6 +18,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
@@ -167,6 +176,49 @@ public class PrincipalJFrame extends JFrame {
 		applayoutConstraints.gridy = 1;
 		applayoutConstraints.weightx = 1.0;
 		this.getContentPane().add(appToolBar, applayoutConstraints);
+		
+		// action listner
+		ajoutVoiture.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Voiture voiture = new Voiture();
+				VoitureFrame frame = new VoitureFrame(voiture, CREATE);
+				desktopPane.add(frame);
+				frame.setLocation((PrincipalJFrame.width - frame.getWidth()) / 2,
+						(PrincipalJFrame.height - frame.getHeight()) / 2);
+				frame.setVisible(true);
+				frame.toFront();
+				frame.setParentFrame(null);
+				
+			}
+		});
+		ajoutClient.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				Client client = new Client();
+				ClientFrame frame = new ClientFrame(client, CREATE);
+				desktopPane.add(frame);
+				frame.setLocation((PrincipalJFrame.width - frame.getWidth()) / 2,
+						(PrincipalJFrame.height - frame.getHeight()) / 2);
+				frame.setVisible(true);
+				frame.toFront();
+				frame.setParentFrame(null);				
+			}
+		});
+		ajoutLocation.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				Location location = new Location();
+				LocationFrame frame = new LocationFrame(location, CREATE);
+				desktopPane.add(frame);
+				frame.setLocation((PrincipalJFrame.width - frame.getWidth()) / 2,
+						(PrincipalJFrame.height - frame.getHeight()) / 2);
+				frame.setVisible(true);
+				frame.toFront();
+				frame.setParentFrame(null);				
+			}
+		});		
 	}
 
 	/**************************************************************/
