@@ -33,11 +33,15 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class PrincipalJFrame extends JFrame {
 
@@ -67,6 +71,17 @@ public class PrincipalJFrame extends JFrame {
 	JButton ajoutLocation;
 
 	//
+	
+	///
+	private JMenu menuLookAndFeel = new JMenu();
+	private JMenuItem menuItemMetal = new JMenuItem();
+	private JMenuItem menuItemMotif = new JMenuItem();
+	private JMenuItem menuItemWindows = new JMenuItem();
+	
+	private JMenu menuFile = new JMenu();
+	private JMenuItem menuItemExit = new JMenuItem();
+	
+	///
 
 	private static final JDesktopPane desktopPane = new JDesktopPane();
 
@@ -124,9 +139,54 @@ public class PrincipalJFrame extends JFrame {
 		clientMenu = new ClientMenu("Client");
 		voitureMenu = new VoitureMenu("Voiture");
 		locationMenu = new LocationMenu("Location");
+		
+		////
+		/**
+		 * Menu File
+		 */
+		menuFile.setText("File");
+		menuItemExit.setText("Exit");
+		menuItemExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				menuItemExitActionPerformed();
+			}
+		});
+		menuFile.add(menuItemExit);
+		appMenuBar.add(menuFile);
+		
+		
+		/**
+		 * Menu Look & Feel
+		 */
+		menuLookAndFeel.setText("Look&Feel");
+
+		menuItemMetal.setText("Metal");
+		menuItemMetal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				menuItemMetalActionPerformed();
+			}
+		});
+		menuLookAndFeel.add(menuItemMetal);
+		menuItemMotif.setText("Motif");
+		menuItemMotif.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				menuItemMotifActionPerformed();
+			}
+		});
+		menuLookAndFeel.add(menuItemMotif);
+		menuItemWindows.setText("Windows");
+		menuItemWindows.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				menuItemWindowsActionPerformed();
+			}
+		});
+		menuLookAndFeel.add(menuItemWindows);
+
+		///
 		appMenuBar.add(clientMenu);
 		appMenuBar.add(voitureMenu);
 		appMenuBar.add(locationMenu);
+		appMenuBar.add(menuLookAndFeel);		
 		// appMenuBar.setBorder(BorderFactory.createEtchedBorder());
 
 		this.setJMenuBar(appMenuBar);
@@ -288,4 +348,54 @@ public class PrincipalJFrame extends JFrame {
 		ImageIcon imgIcon = new ImageIcon(img);
 		return imgIcon;
 	}
+	
+	////////////////////
+	
+	// Clicking on the 'Motif' menu changes the look and feel of the application
+	private void menuItemMotifActionPerformed() {
+		final String mname = "menuItemMotifActionPerformed";
+
+		try {
+			UIManager
+					.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this);
+		} catch (Exception e) {
+			// logger.throwing(className, mname, e);
+		}
+	}
+
+	// Clicking on the 'Metal' menu changes the look and feel of the application
+	private void menuItemMetalActionPerformed() {
+		final String mname = "menuItemMetalActionPerformed";
+
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this);
+		} catch (Exception e) {
+			// logger.throwing(className, mname, e);
+		}
+	}
+
+	// Clicking on the 'Windows' menu changes the look and feel of the
+	// application
+	private void menuItemWindowsActionPerformed() {
+		final String mname = "menuItemWindowsActionPerformed";
+
+		try {
+			UIManager
+					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this);
+		} catch (Exception e) {
+			// logger.throwing(className, mname, e);
+		}
+	}
+
+	/**
+	 * This method exits the application
+	 */
+	private void menuItemExitActionPerformed() {
+		dispose();
+	}
+	
+	///////////////////
 }
