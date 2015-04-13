@@ -10,6 +10,7 @@ import static galv.utilities.YapsViewType.UPDATE_OR_DELETE;
 import galv.crud.ClientCRUD;
 import galv.crud.VoitureCRUD;
 import galv.entities.Location;
+import galv.utilities.DateUtility;
 import galv.utilities.YapsViewType;
 
 import java.awt.GridBagConstraints;
@@ -164,6 +165,11 @@ public class LocationPane extends JPanel {
 				if (!ObjectUtils.equals(oldValue, newValue)) {
 					location.setDateDebut(newValue);
 				}
+				
+				if ((location.getDateDebut() != null) && (location.getDateFin() != null)) {
+					location.setDuree(String.valueOf(DateUtility.getDaysDifference(location.getDateDebut(),location.getDateFin())));
+					dureeField.setText(location.getDuree());
+				}
 			}
 
 		});
@@ -178,6 +184,10 @@ public class LocationPane extends JPanel {
 				if (!ObjectUtils.equals(oldValue, newValue)) {
 					location.setDateFin(newValue);
 				}
+				if ((location.getDateDebut() != null) && (location.getDateFin() != null)) {
+					location.setDuree(String.valueOf(DateUtility.getDaysDifference(location.getDateDebut(),location.getDateFin())));
+					dureeField.setText(location.getDuree());
+				}				
 			}
 
 		});

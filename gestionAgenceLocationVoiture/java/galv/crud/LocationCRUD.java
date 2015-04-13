@@ -147,9 +147,9 @@ public final class LocationCRUD {
 		query.append(" idClient = '");
 		query.append(location.getIdClient()).append("'").append(",");
 		query.append(" idLocation = '");
-		query.append(location.getIdLocation()).append("'");
+		query.append(location.getIdLocation()).append("'").append(",");
 		query.append(" prixUnitaire = '");
-		query.append(location.getPrixUnitaire()).append("'");
+		query.append(location.getPrixUnitaire()).append("'").append(",");
 		query.append(" sommeTotale = '");
 		query.append(location.getSommeTotale()).append("'");		
 		query.append(" WHERE id = ").append(location.getId()).append(";");
@@ -159,7 +159,6 @@ public final class LocationCRUD {
 		if (updated) {
 			updatedLocation = findLocation(location.getIdLocation());
 		}
-		System.out.println(updatedLocation.toString());
 		return updatedLocation;
 
 	}
